@@ -1,11 +1,11 @@
-package br.com.login.security;
+package br.com.xlo.security;
 
-import br.com.login.model.Usuario;
-import static br.com.login.security.SecurityConstants.EXPIRATION_TIME;
-import static br.com.login.security.SecurityConstants.SECRET;
-import static br.com.login.security.SecurityConstants.TOKEN_PREFIX;
-import br.com.login.usuario.Login;
-import br.com.login.usuario.UserDetailsServiceImpl;
+import br.com.xlo.model.Usuario;
+import static br.com.xlo.security.SecurityConstants.EXPIRATION_TIME;
+import static br.com.xlo.security.SecurityConstants.SECRET;
+import static br.com.xlo.security.SecurityConstants.TOKEN_PREFIX;
+import br.com.xlo.usuario.Login;
+import br.com.xlo.usuario.UserDetailsServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import io.jsonwebtoken.Jwts;

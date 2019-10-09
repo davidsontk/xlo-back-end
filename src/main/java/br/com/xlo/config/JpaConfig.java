@@ -1,4 +1,4 @@
-package br.com.login.config;
+package br.com.xlo.config;
 
 import java.util.Properties;
 import javax.persistence.EntityManagerFactory;

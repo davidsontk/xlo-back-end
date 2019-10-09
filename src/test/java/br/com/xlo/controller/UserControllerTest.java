@@ -1,7 +1,7 @@
-package br.com.login.controller;
+package br.com.xlo.controller;
 
-import br.com.login.model.Usuario;
-import br.com.login.repository.UsuarioRepository;
+import br.com.xlo.model.Usuario;
+import br.com.xlo.repository.UsuarioRepository;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  *
- * @author fernando
+ * @author Davidson
  */
 public class UserControllerTest {
 

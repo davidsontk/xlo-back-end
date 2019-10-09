@@ -1,7 +1,7 @@
-package br.com.login.controller;
+package br.com.xlo.controller;
 
-import br.com.login.model.Usuario;
-import br.com.login.repository.UsuarioRepository;
+import br.com.xlo.model.Usuario;
+import br.com.xlo.repository.UsuarioRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package br.com.login.security;
+package br.com.xlo.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -14,9 +14,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static br.com.login.security.SecurityConstants.HEADER_STRING;
-import static br.com.login.security.SecurityConstants.SECRET;
-import static br.com.login.security.SecurityConstants.TOKEN_PREFIX;
+import static br.com.xlo.security.SecurityConstants.HEADER_STRING;
+import static br.com.xlo.security.SecurityConstants.SECRET;
+import static br.com.xlo.security.SecurityConstants.TOKEN_PREFIX;
 
 /**
  *

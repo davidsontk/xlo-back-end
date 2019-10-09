@@ -1,4 +1,4 @@
-package br.com.login.model;
+package br.com.xlo.model;
 
 import java.io.Serializable;
 import javax.persistence.Basic;

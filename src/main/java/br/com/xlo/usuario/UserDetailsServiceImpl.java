@@ -1,7 +1,7 @@
-package br.com.login.usuario;
+package br.com.xlo.usuario;
 
-import br.com.login.model.Usuario;
-import br.com.login.repository.UsuarioRepository;
+import br.com.xlo.model.Usuario;
+import br.com.xlo.repository.UsuarioRepository;
 import static java.util.Collections.emptyList;
 import java.util.HashSet;
 import java.util.Set;

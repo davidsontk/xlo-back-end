@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.login.repository;
+package br.com.xlo.repository;
 
-import br.com.login.model.Usuario;
+import br.com.xlo.repository.UsuarioRepository;
+import br.com.xlo.model.Usuario;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -16,7 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  *
- * @author fernando
+ * @author Davidson
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest

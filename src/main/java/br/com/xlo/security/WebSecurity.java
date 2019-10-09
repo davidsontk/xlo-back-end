@@ -1,7 +1,7 @@
-package br.com.login.security;
+package br.com.xlo.security;
 
-import static br.com.login.security.SecurityConstants.SIGN_UP_URL;
-import br.com.login.usuario.UserDetailsServiceImpl;
+import static br.com.xlo.security.SecurityConstants.SIGN_UP_URL;
+import br.com.xlo.usuario.UserDetailsServiceImpl;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.context.annotation.Bean;

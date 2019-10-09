@@ -1,6 +1,6 @@
-package br.com.login.repository;
+package br.com.xlo.repository;
 
-import br.com.login.model.Usuario;
+import br.com.xlo.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

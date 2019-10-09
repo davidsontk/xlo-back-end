@@ -1,6 +1,6 @@
-package br.com.login.security;
+package br.com.xlo.security;
 
-import br.com.login.usuario.Login;
+import br.com.xlo.usuario.Login;
 
 /**
  *

@@ -1,4 +1,4 @@
-package br.com.login.usuario;
+package br.com.xlo.usuario;
 
 /**
  *
