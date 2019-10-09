@@ -120,7 +120,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.login.model.Usuario[ id=" + id + " ]";
+        return "br.com.xlo.model.Usuario[ id=" + id + " ]";
     }
 
 }

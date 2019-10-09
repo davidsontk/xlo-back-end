@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "br.com.login.repository")
+@EnableJpaRepositories(basePackages = "br.com.xlo.repository")
 public class JpaConfig {
 
     @Autowired
@@ -38,7 +38,7 @@ public class JpaConfig {
 
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan("br.com.login.model");
+        em.setPackagesToScan("br.com.xlo.model");
         em.setJpaVendorAdapter(vendorAdapter);
         em.setJpaProperties(additionalProperties());
 
