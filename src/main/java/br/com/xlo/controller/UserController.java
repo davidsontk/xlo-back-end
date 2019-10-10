@@ -5,6 +5,7 @@ import br.com.xlo.repository.UsuarioRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,14 +37,18 @@ private Logger log = LogManager.getLogger(UserController.class);
         usuarioRepository.save(user);
     }
 
-    @PostMapping("/cadastroUsuario")
-    public void CadastroUsuario(@RequestBody Usuario usuario) {
+    @PostMapping
+    public String cadastroUsuario(@RequestBody Usuario usuario) {
         try {
-           usuarioRepository.save(usuario); 
+            String hash = BCrypt.hashpw(usuario.getPassword(), BCrypt.gensalt(10));
+            usuario.setPassword(hash);
+            usuarioRepository.save(usuario);
+            return "Usuário cadastro com sucesso " + usuario.getUsername();
+            
         } catch (Exception e) {
-            log.error("Erro ao salvar usuario ",e);
+            log.error("Erro ao salvar usuario ", e);
+            return "Erro ao cadastrar usuario" + usuario.getUsername();
         }
-        
     }
 
     @PostMapping("/alterarUsurio")
