@@ -2,11 +2,13 @@ package br.com.xlo.controller;
 
 import br.com.xlo.model.Usuario;
 import br.com.xlo.repository.UsuarioRepository;
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-private Logger log = LogManager.getLogger(UserController.class);
+
+    private Logger log = LogManager.getLogger(UserController.class);
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -44,7 +47,7 @@ private Logger log = LogManager.getLogger(UserController.class);
             usuario.setPassword(hash);
             usuarioRepository.save(usuario);
             return "Usuário cadastro com sucesso " + usuario.getUsername();
-            
+
         } catch (Exception e) {
             log.error("Erro ao salvar usuario ", e);
             return "Erro ao cadastrar usuario" + usuario.getUsername();
@@ -54,8 +57,13 @@ private Logger log = LogManager.getLogger(UserController.class);
     @PostMapping("/alterarUsurio")
     public void alterarUsuario(@RequestBody Usuario usuario) {
         Usuario user;
-       // user = (Usuario) usuarioRepository.findById(usuario.getId().longValue());
+        // user = (Usuario) usuarioRepository.findById(usuario.getId().longValue());
 
     }
 
+    @GetMapping
+    public List<Usuario> listarUsuarios() {
+        return usuarioRepository.findAllByOrderByUsernameAsc();
+        //return usuarioRepository.findAll();
+    }
 }
