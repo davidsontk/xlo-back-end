@@ -1,0 +1,35 @@
+CREATE DATABASE xlocar;
+USE xlocar;
+
+CREATE TABLE usuario (
+	id serial NOT NULL PRIMARY KEY,
+	username CHARACTER VARYING(100) NOT NULL,
+	password CHARACTER VARYING(100) NOT NULL,
+	perfil CHARACTER VARYING(15),
+	enable CHARACTER VARYING(100),
+	email CHARACTER VARYING(100) NOT NULL
+);
+CREATE TABLE veiculo(
+	id_veiculo serial NOT NULL PRIMARY KEY,
+	modelo VARCHAR(50) NOT NULL,
+	ano INT NOT NULL,
+	marca VARCHAR(50) NOT NULL,
+	km int NOT NULL,
+	id_usuario INT NOT NULL,
+	preco FLOAT NOT NULL,
+	descricao VARCHAR(200),
+	FOREIGN KEY(id_usuario) REFERENCES usuario(id) ON DELETE NO ACTION
+);
+CREATE TABLE administrador(
+	id serial NOT NULL PRIMARY KEY,
+	username CHARACTER VARYING(100) NOT NULL,
+	password CHARACTER VARYING(100) NOT NULL
+);
+CREATE TABLE requisicao(
+	id_veiculo INT NOT NULL,
+	id_usuario INT NOT NULL,
+	comentario CHARACTER VARYING(150) NOT NULL,
+	FOREIGN KEY(id_veiculo) REFERENCES veiculo(id_veiculo) ON DELETE NO ACTION,
+	FOREIGN KEY(id_usuario) REFERENCES usuario(id) ON DELETE NO ACTION
+);
+
