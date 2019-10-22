@@ -7,8 +7,10 @@ package br.com.xlo.controller;
 
 import br.com.xlo.model.MarcaVeiculo;
 import br.com.xlo.model.TipoVeiculo;
+import br.com.xlo.model.Veiculo;
 import br.com.xlo.repository.MarcaVeiculoRepository;
 import br.com.xlo.repository.TipoVeiculoRepository;
+import br.com.xlo.repository.VeiculoRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +32,9 @@ public class CamposController {
     @Autowired
     private TipoVeiculoRepository tipoVeiculoRepository;
 
+    @Autowired
+    private VeiculoRepository veiculoRepository;
+
     @GetMapping("tipo-veiculo")
     public List<TipoVeiculo> getTipoVeiculo() {
         System.out.println("Voltando lista de tipo de veiculos");
@@ -42,4 +47,9 @@ public class CamposController {
         return marcaVeiculoRepository.findAll();
     }
 
+    @GetMapping("buscarVeiculos")
+    public List<Veiculo> getVeiculos() {
+        System.out.println("Enviando lista de veiculos");
+        return veiculoRepository.findAll();
+    }
 }
