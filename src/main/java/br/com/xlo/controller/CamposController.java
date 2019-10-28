@@ -41,15 +41,19 @@ public class CamposController {
         return tipoVeiculoRepository.findAll();
     }
 
-    @GetMapping("marca-veiculo/{idTipo}")
-    public List<MarcaVeiculo> getMarcaVeiculos(@PathVariable Integer idTipo) {
+    @GetMapping("marca-veiculo/{tipoVeiculo}")
+    public List<MarcaVeiculo> getMarcaVeiculos(@PathVariable String tipoVeiculo) {
         System.out.println("Voltando lista de marca de veiculos");
-        return marcaVeiculoRepository.findAll();
+        return marcaVeiculoRepository.findByTipoVeiculoNome(tipoVeiculo);
     }
 
-    @GetMapping("buscarVeiculos")
-    public List<Veiculo> getVeiculos() {
+    @GetMapping("buscarVeiculos/{marcaVeiculo}/{campoDinamico}")
+    public List<Veiculo> getVeiculos(@PathVariable String marcaVeiculo, @PathVariable String campoDinamico) {
         System.out.println("Enviando lista de veiculos");
-        return veiculoRepository.findAll();
+        if (campoDinamico != null || (!campoDinamico.equals(""))) {
+            return veiculoRepository.findByMarca(marcaVeiculo);
+        } else {
+            return veiculoRepository.findAll();
+        }
     }
 }
