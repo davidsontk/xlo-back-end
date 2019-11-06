@@ -13,6 +13,12 @@ import br.com.xlo.repository.TipoVeiculoRepository;
 import br.com.xlo.repository.VeiculoRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,13 +53,30 @@ public class CamposController {
         return marcaVeiculoRepository.findByTipoVeiculoNome(tipoVeiculo);
     }
 
-    @GetMapping("buscarVeiculos/{marcaVeiculo}/{campoDinamico}")
-    public List<Veiculo> getVeiculos(@PathVariable String marcaVeiculo, @PathVariable String campoDinamico) {
+//    @GetMapping("buscarVeiculos/{marcaVeiculo}/{campoDinamico}")
+//    public List<Veiculo> getVeiculos(@PathVariable String marcaVeiculo, @PathVariable String campoDinamico) {
+//        System.out.println("Enviando lista de veiculos");
+//        if (campoDinamico != null || (!campoDinamico.equals(""))) {
+//            return veiculoRepository.findByMarca(marcaVeiculo);
+//        } else {
+//            return veiculoRepository.findAll();
+//        }
+//    }
+    
+    @GetMapping("buscarVeiculos/{marcaVeiculo}/{campoDinamico}/{page}/{pageSize}")
+    public ResponseEntity<Page> getVeiculos(@PathVariable String marcaVeiculo, @PathVariable String campoDinamico, @PathVariable int page, @PathVariable int pageSize) {
         System.out.println("Enviando lista de veiculos");
-        if (campoDinamico != null || (!campoDinamico.equals(""))) {
-            return veiculoRepository.findByMarca(marcaVeiculo);
+        Pageable pageable;
+        if (campoDinamico.equals("null") || campoDinamico.equals("")) {
+            // pesquisando apenas pela marca do veiculo
+            pageable = PageRequest.of(page, pageSize, Sort.by("descricao"));
+
+            return new ResponseEntity<>(veiculoRepository.findByMarcaPage(marcaVeiculo, pageable), HttpStatus.OK);
         } else {
-            return veiculoRepository.findAll();
+            // pesquisando pelo campo dinamico
+            pageable = PageRequest.of(page, pageSize, Sort.by("descricao"));
+
+            return new ResponseEntity<>(veiculoRepository.findByMarcaAndDescricaoPage(marcaVeiculo, campoDinamico, pageable), HttpStatus.OK);
         }
     }
 }
