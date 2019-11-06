@@ -62,7 +62,6 @@ public class CamposController {
 //            return veiculoRepository.findAll();
 //        }
 //    }
-    
     @GetMapping("buscarVeiculos/{tipoVeiculo}/{marcaVeiculo}/{campoDinamico}/{page}/{pageSize}")
     public ResponseEntity<Page> getVeiculos(@PathVariable String tipoVeiculo, @PathVariable String marcaVeiculo, @PathVariable String campoDinamico, @PathVariable int page, @PathVariable int pageSize) {
         System.out.println("Enviando lista de veiculos");
@@ -71,12 +70,21 @@ public class CamposController {
             // pesquisando apenas pela marca do veiculo
             pageable = PageRequest.of(page, pageSize, Sort.by("descricao"));
 
-            return new ResponseEntity<>(veiculoRepository.findByMarcaPage(tipoVeiculo,marcaVeiculo, pageable), HttpStatus.OK);
+            return new ResponseEntity<>(veiculoRepository.findByMarcaPage(tipoVeiculo, marcaVeiculo, pageable), HttpStatus.OK);
         } else {
             // pesquisando pelo campo dinamico
             pageable = PageRequest.of(page, pageSize, Sort.by("descricao"));
 
-            return new ResponseEntity<>(veiculoRepository.findByMarcaAndDescricaoPage(tipoVeiculo,marcaVeiculo, campoDinamico, pageable), HttpStatus.OK);
+            return new ResponseEntity<>(veiculoRepository.findByMarcaAndDescricaoPage(tipoVeiculo, marcaVeiculo, campoDinamico, pageable), HttpStatus.OK);
         }
+    }
+
+    @GetMapping("buscarTodosVeiculos/{page}/{pageSize}")
+    public ResponseEntity<Page> getVeiculos(@PathVariable int page, @PathVariable int pageSize) {
+        System.out.println("Enviando lista completa de veiculos");
+        Pageable pageable;
+
+        pageable = PageRequest.of(page, pageSize, Sort.by("descricao"));
+        return new ResponseEntity<>(veiculoRepository.findAll(pageable), HttpStatus.OK);
     }
 }

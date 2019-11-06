@@ -33,4 +33,6 @@ public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
             + "AND LOWER(v.descricao) LIKE LOWER(CONCAT('%',?3,'%')) ")
     Page<Veiculo> findByMarcaAndDescricaoPage(String tipoVeiculo, String marcaVeiculo, String descricaoVeiculo, Pageable pageable);
 
+    Page<Veiculo> findAll(Pageable p);
+    
 }
