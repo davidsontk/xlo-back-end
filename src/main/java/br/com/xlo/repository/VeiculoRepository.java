@@ -23,14 +23,14 @@ public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
 
     @Query("SELECT v FROM Veiculo v "
             + "JOIN MarcaVeiculo mv ON v.marca.id = mv.id "
-            + "WHERE mv.marca = ?1 "
+            + "WHERE mv.marca = ?2 AND mv.tipoVeiculo.tipoNome = ?1 "
             + "ORDER BY v.descricao ")
-    Page<Veiculo> findByMarcaPage(String marcaVeiculo, Pageable pageable);
+    Page<Veiculo> findByMarcaPage(String tipoVeiculo, String marcaVeiculo, Pageable pageable);
 
     @Query("SELECT v FROM Veiculo v "
             + "JOIN MarcaVeiculo mv ON v.marca.id = mv.id "
-            + "WHERE mv.marca = ?1 "
-            + "AND LOWER(v.descricao) LIKE LOWER(CONCAT('%',?2,'%')) ")
-    Page<Veiculo> findByMarcaAndDescricaoPage(String marcaVeiculo, String descricaoVeiculo, Pageable pageable);
+            + "WHERE mv.marca = ?2 AND mv.tipoVeiculo.tipoNome = ?1 "
+            + "AND LOWER(v.descricao) LIKE LOWER(CONCAT('%',?3,'%')) ")
+    Page<Veiculo> findByMarcaAndDescricaoPage(String tipoVeiculo, String marcaVeiculo, String descricaoVeiculo, Pageable pageable);
 
 }

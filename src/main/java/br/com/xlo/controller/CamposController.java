@@ -63,20 +63,20 @@ public class CamposController {
 //        }
 //    }
     
-    @GetMapping("buscarVeiculos/{marcaVeiculo}/{campoDinamico}/{page}/{pageSize}")
-    public ResponseEntity<Page> getVeiculos(@PathVariable String marcaVeiculo, @PathVariable String campoDinamico, @PathVariable int page, @PathVariable int pageSize) {
+    @GetMapping("buscarVeiculos/{tipoVeiculo}/{marcaVeiculo}/{campoDinamico}/{page}/{pageSize}")
+    public ResponseEntity<Page> getVeiculos(@PathVariable String tipoVeiculo, @PathVariable String marcaVeiculo, @PathVariable String campoDinamico, @PathVariable int page, @PathVariable int pageSize) {
         System.out.println("Enviando lista de veiculos");
         Pageable pageable;
         if (campoDinamico.equals("null") || campoDinamico.equals("")) {
             // pesquisando apenas pela marca do veiculo
             pageable = PageRequest.of(page, pageSize, Sort.by("descricao"));
 
-            return new ResponseEntity<>(veiculoRepository.findByMarcaPage(marcaVeiculo, pageable), HttpStatus.OK);
+            return new ResponseEntity<>(veiculoRepository.findByMarcaPage(tipoVeiculo,marcaVeiculo, pageable), HttpStatus.OK);
         } else {
             // pesquisando pelo campo dinamico
             pageable = PageRequest.of(page, pageSize, Sort.by("descricao"));
 
-            return new ResponseEntity<>(veiculoRepository.findByMarcaAndDescricaoPage(marcaVeiculo, campoDinamico, pageable), HttpStatus.OK);
+            return new ResponseEntity<>(veiculoRepository.findByMarcaAndDescricaoPage(tipoVeiculo,marcaVeiculo, campoDinamico, pageable), HttpStatus.OK);
         }
     }
 }
