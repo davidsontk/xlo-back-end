@@ -22,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -59,7 +60,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
                 Authentication token = new UsernamePasswordAuthenticationToken(creds,
                         creds.getPassword());
-
+     
                 return token;
             }
 
@@ -89,7 +90,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         ObjectMapper mapper = new ObjectMapper();
         AccountCredentials account = new AccountCredentials();
         account.setSuccess(true);
-
+        account.setMessage("Usuario logado!");
         Login login = new Login();
 
         login.setEmail(u.getEmail());
@@ -106,8 +107,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private boolean checkPassword(String senha, String senhaPersistida) {
         try {
-            //return BCrypt.checkpw(senha, senhaPersistida);//(senha, senhaPersistida);
-            return true;
+            return BCrypt.checkpw(senha, senhaPersistida);//(senha, senhaPersistida);
         } catch (Exception e) {
             log.error("Erro ao comparar senha", e);
             return false;

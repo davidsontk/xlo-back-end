@@ -19,25 +19,33 @@ import javax.validation.constraints.Size;
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+
     @Size(max = 100)
     @Column(name = "username")
     private String username;
-//    @Column(name = "name")
-//    private String name;
+
+    @Size(max = 200)
+    @Column(name = "lastname")
+    private String lastname;
+    
     @Size(max = 100)
     @Column(name = "password")
     private String password;
+
     @Size(max = 15)
     @Column(name = "perfil")
     private String perfil;
+
     @Column(name = "enable")
     private Boolean enable;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+
     @Size(max = 100)
     @Column(name = "email")
     private String email;
@@ -65,6 +73,13 @@ public class Usuario implements Serializable {
         this.username = username;
     }
 
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
 
     public String getPassword() {
         return password;
