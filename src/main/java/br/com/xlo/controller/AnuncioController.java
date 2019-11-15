@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author William Fávaro
  */
 @RestController
-@RequestMapping("/anuncio")
+@RequestMapping("/anuncio/")
 public class AnuncioController {
     @Autowired
     private VeiculoRepository veiculoRepository;

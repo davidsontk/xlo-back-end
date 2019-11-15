@@ -90,6 +90,13 @@ public class Veiculo {
 
     public void setMarca(MarcaVeiculo marca) {
         this.marca = marca;
-    }  
-    
+    }
+
+    public Usuario getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Usuario idUsuario) {
+        this.idUsuario = idUsuario;
+    }        
 }
