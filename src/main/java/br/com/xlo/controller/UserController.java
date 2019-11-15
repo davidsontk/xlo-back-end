@@ -66,7 +66,6 @@ public class UserController {
 
     @GetMapping
     public List<Usuario> listarUsuarios() {
-        return usuarioRepository.findAllByOrderByUsernameAsc();
-        //return usuarioRepository.findAll();
+       return usuarioRepository.findAll();
     }
 }
