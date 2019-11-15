@@ -36,6 +36,10 @@ public class Veiculo {
     @Column(name = "descricao")
     private String descricao;
     
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id")
+    @ManyToOne
+    private Usuario idUsuario;
+    
     @JoinColumn(name = "marca", referencedColumnName = "id")
     @ManyToOne
     private MarcaVeiculo marca;

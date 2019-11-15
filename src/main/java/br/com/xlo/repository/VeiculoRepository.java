@@ -1,5 +1,6 @@
 package br.com.xlo.repository;
 
+import br.com.xlo.model.Usuario;
 import br.com.xlo.model.Veiculo;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -34,5 +35,10 @@ public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
     Page<Veiculo> findByMarcaAndDescricaoPage(String tipoVeiculo, String marcaVeiculo, String descricaoVeiculo, Pageable pageable);
 
     Page<Veiculo> findAll(Pageable p);
+    
+    @Query("SELECT v FROM Veiculo v " 
+            + "JOIN Usuario u ON v.idUsuario.id = u.id " 
+            + "WHERE u.username = ?1")
+    List<Veiculo> findVehiclesByUserName(String username);
     
 }
