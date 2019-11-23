@@ -31,12 +31,12 @@ public class OpcionaisVeiculo implements Serializable{
     
     @Id
     @ManyToOne
-    @JoinColumn(name = "veiculo", referencedColumnName = "id")
+    @JoinColumn(name = "id_veiculo", referencedColumnName = "id")
     private Veiculo idVeiculo;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "opcionais", referencedColumnName = "id")
+    @JoinColumn(name = "id_opcionais", referencedColumnName = "id")
     private Opcionais idOpcionais;
 
     public Veiculo getIdVeiculo() {

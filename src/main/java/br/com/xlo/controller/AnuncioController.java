@@ -89,8 +89,8 @@ public class AnuncioController {
 
         v = veiculoRepository.save(v);
 
-        salvarOpcionalVeiculo(v, opcionais);
-        salvarImagensAnuncio(v, imagens);
+        //salvarOpcionalVeiculo(v, opcionais);
+        //salvarImagensAnuncio(v, imagens);
     }
 
     private void salvarOpcionalVeiculo(Veiculo veiculo, List<OpcionaisVeiculoDTO> opcionaisVeiculo) {
