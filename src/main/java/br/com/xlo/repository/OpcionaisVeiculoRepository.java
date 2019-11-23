@@ -13,5 +13,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author davidson ferreira
  */
 public interface OpcionaisVeiculoRepository extends JpaRepository<OpcionaisVeiculo, Long> {
-
+    
+    OpcionaisVeiculo findByIdVeiculo(Integer id);
+    
+    OpcionaisVeiculo save(OpcionaisVeiculo opcionaisVeiculo);
 }

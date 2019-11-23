@@ -24,4 +24,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
    
     @Query(value = "SELECT u.id, u.username, u.lastname, null AS password, u.perfil, u.enable, u.email FROM Usuario u", nativeQuery = true)
     List<Usuario> findAll();
+    
+    Usuario findById(Integer id);
 }

@@ -5,14 +5,22 @@
  */
 package br.com.xlo.controller;
 
+import br.com.xlo.dto.OpcionaisVeiculoDTO;
+import br.com.xlo.dto.VeiculoDTO;
 import br.com.xlo.model.Opcionais;
+import br.com.xlo.model.OpcionaisVeiculo;
+import br.com.xlo.model.Usuario;
 import br.com.xlo.model.Veiculo;
 import br.com.xlo.repository.OpcionaisRepository;
+import br.com.xlo.repository.OpcionaisVeiculoRepository;
+import br.com.xlo.repository.UsuarioRepository;
 import br.com.xlo.repository.VeiculoRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +36,12 @@ public class AnuncioController {
     
     @Autowired
     private OpcionaisRepository opcionaisRepository;
+    
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+    
+    @Autowired
+    private OpcionaisVeiculoRepository opcionaisVeiculoRepository;
     
     /**
      * Lista veiculos por usuario
@@ -46,5 +60,18 @@ public class AnuncioController {
         return opcionaisRepository.findAll();
     }
     
-    
+    @PostMapping
+    public void salvarVeiculoEOpcionais(@RequestBody VeiculoDTO veiculo, OpcionaisVeiculoDTO opcionaisVeiculo) {
+        VeiculoDTO veiculoDTO = veiculo;
+        Usuario usuario = usuarioRepository.findById(veiculoDTO.getIdUsuario());
+        Veiculo v = new Veiculo();
+        v.setIdUsuario(usuario);
+        v.setDescricao(veiculo.getDescricao());
+        v.setPreco(veiculo.getPreco());
+        v.setKmRodado(veiculo.getKm());
+        v.setAno(veiculo.getAno());
+
+        veiculoRepository.save(v);
+           
+    }
 }
