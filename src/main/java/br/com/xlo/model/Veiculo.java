@@ -18,28 +18,29 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "veiculo")
 public class Veiculo {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-   
+
     @Column(name = "ano")
     private Integer ano;
-    
+
     @Column(name = "km_rodado")
     private Integer kmRodado;
 
     @Column(name = "preco")
     private Double preco;
-    
+
     @Column(name = "descricao")
     private String descricao;
-    
+
     @JoinColumn(name = "id_usuario", referencedColumnName = "id")
     @ManyToOne
     private Usuario idUsuario;
-    
+
     @JoinColumn(name = "marca", referencedColumnName = "id")
     @ManyToOne
     private MarcaVeiculo marca;
@@ -98,5 +99,5 @@ public class Veiculo {
 
     public void setIdUsuario(Usuario idUsuario) {
         this.idUsuario = idUsuario;
-    }        
+    }
 }

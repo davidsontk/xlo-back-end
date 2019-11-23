@@ -41,4 +41,8 @@ public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
             + "WHERE u.username = ?1")
     List<Veiculo> findVehiclesByUserName(String username);
     
+    Veiculo save(Veiculo veiculo);
+    
+    Veiculo findById(Integer id);
+    
 }
