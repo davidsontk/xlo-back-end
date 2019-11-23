@@ -5,6 +5,7 @@
  */
 package br.com.xlo.model;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -13,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -23,19 +25,16 @@ import javax.persistence.Table;
  * @author davidson ferreira
  */
 @Entity
+@IdClass(OpcionaisVeiculoPK.class)
 @Table(name = "opcionais_veiculo")
-public class OpcionaisVeiculo {
-
+public class OpcionaisVeiculo implements Serializable{
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
-
     @ManyToOne
     @JoinColumn(name = "veiculo", referencedColumnName = "id")
     private Veiculo idVeiculo;
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "opcionais", referencedColumnName = "id")
     private Opcionais idOpcionais;
@@ -54,5 +53,17 @@ public class OpcionaisVeiculo {
 
     public void setIdOpcionais(Opcionais idOpcionais) {
         this.idOpcionais = idOpcionais;
+    }
+    
+    static class OpcionaisVeiculoPK implements Serializable{
+        protected Veiculo idVeiculo;
+        protected Opcionais idOpcionais;
+        
+        public OpcionaisVeiculoPK() {}
+        
+        public OpcionaisVeiculoPK(Veiculo idVeiculo, Opcionais idOpcionais) {
+            this.idVeiculo = idVeiculo;
+            this.idOpcionais = idOpcionais;
+        }
     }
 }

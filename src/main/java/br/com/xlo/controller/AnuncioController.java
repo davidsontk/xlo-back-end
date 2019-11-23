@@ -65,6 +65,7 @@ public class AnuncioController {
     }
 
     @PostMapping
+    @GetMapping("cadastro-anuncio")
     public void salvarVeiculoEOpcionais(@RequestBody VeiculoDTO veiculo, @RequestBody List<OpcionaisVeiculoDTO> opcionaisVeiculo) {
         VeiculoDTO veiculoDTO = veiculo;
         Usuario usuario = usuarioRepository.findById(veiculoDTO.getIdUsuario());
@@ -91,4 +92,10 @@ public class AnuncioController {
         }
     }
 
+    
+    //veiculo e lista de opcionaisVeiculo
+    @GetMapping("detalhes")
+    public List<OpcionaisVeiculo> listaOpcionaisVeiculo() {
+        return opcionaisVeiculoRepository.findAll();
+    }
 }
