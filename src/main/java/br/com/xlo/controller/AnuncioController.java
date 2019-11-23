@@ -75,9 +75,8 @@ public class AnuncioController {
         return opcionaisRepository.findAll();
     }
 
-    @PostMapping
-    @GetMapping("cadastro-anuncio")
-    public void salvarVeiculoEOpcionais(@RequestBody VeiculoDTO veiculo, @RequestBody List<OpcionaisVeiculoDTO> opcionaisVeiculo) {
+    @PostMapping("cadastro-anuncio")
+    public void salvarVeiculoEOpcionais(@RequestParam VeiculoDTO veiculo, @RequestParam List<OpcionaisVeiculoDTO> opcionais, @RequestParam List<MultipartFile> imagens) {
         VeiculoDTO veiculoDTO = veiculo;
         Usuario usuario = usuarioRepository.findById(veiculoDTO.getIdUsuario());
         Veiculo v = new Veiculo();
@@ -108,5 +107,18 @@ public class AnuncioController {
     @GetMapping("detalhes")
     public List<OpcionaisVeiculo> listaOpcionaisVeiculo() {
         return opcionaisVeiculoRepository.findAll();
+    }
+
+     private void salvarImagensAnuncio(Veiculo veiculo ,List<MultipartFile> fotos) {
+        Path diretorioPath = Paths.get(this.raiz, this.diretorioImagens, veiculo.getId().toString() + "/");
+        for (MultipartFile foto : fotos) {
+            Path arquivoPath = diretorioPath.resolve(foto.getOriginalFilename());
+            try {
+                Files.createDirectories(diretorioPath);
+                foto.transferTo(arquivoPath.toFile());
+            } catch (IOException e) {
+                throw new RuntimeException("Problemas na tentativa de salvar arquivo.", e);
+            }
+        }
     }
 }
