@@ -21,6 +21,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     
     List<Usuario> findAllByOrderByUsernameAsc();
     
-    @Query("SELECT u.id, u.username, u.lastname, u.perfil, u.enable, u.email FROM Usuario u")
+   
+    @Query(value = "SELECT u.id, u.username, u.lastname, null AS password, u.perfil, u.enable, u.email FROM Usuario u", nativeQuery = true)
     List<Usuario> findAll();
 }
