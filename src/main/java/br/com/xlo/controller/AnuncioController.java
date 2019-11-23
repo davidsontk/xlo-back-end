@@ -83,12 +83,12 @@ public class AnuncioController {
 
     private void salvarOpcionalVeiculo(Veiculo veiculo, List<OpcionaisVeiculoDTO> opcionaisVeiculo) {
         for (OpcionaisVeiculoDTO opcional : opcionaisVeiculo) {
-            // OpcionaisRepository.findById(opcional.getIdOpcionais());
-            //
-            //* 
-            // * montar o objeto opcionaisVeiculo
-            //*
-            // OpcionaisVeiculoRepository.save(objetoOpcionais);
+            Opcionais opcionais = opcionaisRepository.findById(opcional.getIdOpcionais());
+            veiculo = veiculoRepository.findById(veiculo.getId());
+            OpcionaisVeiculo op = new OpcionaisVeiculo();
+            op.setIdOpcionais(opcionais);
+            op.setIdVeiculo(veiculo);
+            op = opcionaisVeiculoRepository.save(op);
         }
     }
 

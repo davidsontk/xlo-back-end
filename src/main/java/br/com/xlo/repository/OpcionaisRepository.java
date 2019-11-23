@@ -20,4 +20,6 @@ public interface OpcionaisRepository extends JpaRepository<Opcionais, Long> {
     @Override
     List<Opcionais> findAll();
     
+    Opcionais findById(Integer id);
+    
 }
