@@ -26,6 +26,7 @@ public class AnuncioController {
     @Autowired
     private VeiculoRepository veiculoRepository;
     
+    @Autowired
     private OpcionaisRepository opcionaisRepository;
     
     /**
