@@ -5,14 +5,19 @@
  */
 package br.com.xlo.controller;
 
+import br.com.xlo.dto.AnuncioDTO;
 import br.com.xlo.dto.OpcionaisVeiculoDTO;
 import br.com.xlo.dto.VeiculoDTO;
+import br.com.xlo.model.MarcaVeiculo;
 import br.com.xlo.model.Opcionais;
 import br.com.xlo.model.OpcionaisVeiculo;
+import br.com.xlo.model.TipoVeiculo;
 import br.com.xlo.model.Usuario;
 import br.com.xlo.model.Veiculo;
+import br.com.xlo.repository.MarcaVeiculoRepository;
 import br.com.xlo.repository.OpcionaisRepository;
 import br.com.xlo.repository.OpcionaisVeiculoRepository;
+import br.com.xlo.repository.TipoVeiculoRepository;
 import br.com.xlo.repository.UsuarioRepository;
 import br.com.xlo.repository.VeiculoRepository;
 import java.io.IOException;
@@ -51,6 +56,12 @@ public class AnuncioController {
     @Autowired
     private OpcionaisVeiculoRepository opcionaisVeiculoRepository;
 
+    @Autowired
+    private MarcaVeiculoRepository marcaRepository;
+
+    @Autowired
+    private TipoVeiculoRepository tipoVeiculoRepository;
+    
     @Value("${xlo.disco.raiz}")
     private String raiz;
 
@@ -76,42 +87,44 @@ public class AnuncioController {
     }
 
     @PostMapping("cadastro-anuncio")
-    public void salvarVeiculoEOpcionais(@RequestParam VeiculoDTO veiculo, @RequestParam List<OpcionaisVeiculoDTO> opcionais, @RequestParam List<MultipartFile> imagens) {
-        VeiculoDTO veiculoDTO = veiculo;
-        Usuario usuario = usuarioRepository.findById(veiculoDTO.getIdUsuario());
+    public Veiculo salvarVeiculoEOpcionais(@RequestBody AnuncioDTO anuncio) {
+        Usuario usuario = usuarioRepository.findById(anuncio.getIdUsuario());
+        TipoVeiculo tipoVeiculo = tipoVeiculoRepository.findByTipoNome(anuncio.getVeiculo().getTipo());
+        MarcaVeiculo marca = marcaRepository.findByMarcaAndTipoVeiculo(anuncio.getVeiculo().getMarca(), tipoVeiculo);
         Veiculo v = new Veiculo();
         v.setIdUsuario(usuario);
-        v.setDescricao(veiculo.getDescricao());
-        v.setPreco(veiculo.getPreco());
-        v.setKmRodado(veiculo.getKm());
-        v.setAno(veiculo.getAno());
+        v.setDescricao(anuncio.getVeiculo().getDescricao());
+        v.setPreco(anuncio.getVeiculo().getPreco());
+        v.setKmRodado(anuncio.getVeiculo().getKm());
+        v.setAno(anuncio.getVeiculo().getAno());
+        v.setMarca(marca);
 
-        v = veiculoRepository.save(v);
+        Veiculo v1 = veiculoRepository.save(v);
 
-        //salvarOpcionalVeiculo(v, opcionais);
-        //salvarImagensAnuncio(v, imagens);
+        salvarOpcionalVeiculo(v1, anuncio.getOpcionais());
+        return v;
     }
 
-    private void salvarOpcionalVeiculo(Veiculo veiculo, List<OpcionaisVeiculoDTO> opcionaisVeiculo) {
-        for (OpcionaisVeiculoDTO opcional : opcionaisVeiculo) {
-            Opcionais opcionais = opcionaisRepository.findById(opcional.getIdOpcionais());
+    private void salvarOpcionalVeiculo(Veiculo veiculo, List<Integer> opcionaisVeiculo) {
+        for (Integer opcional : opcionaisVeiculo) {
+            Opcionais opcionais = opcionaisRepository.findById(opcional);
             OpcionaisVeiculo op = new OpcionaisVeiculo();
             op.setIdOpcionais(opcionais);
             op.setIdVeiculo(veiculo);
-            op = opcionaisVeiculoRepository.save(op);
+            opcionaisVeiculoRepository.save(op);
         }
     }
 
-    
     //veiculo e lista de opcionaisVeiculo
     @GetMapping("detalhes")
     public List<OpcionaisVeiculo> listaOpcionaisVeiculo() {
         return opcionaisVeiculoRepository.findAll();
     }
 
-     private void salvarImagensAnuncio(Veiculo veiculo ,List<MultipartFile> fotos) {
-        Path diretorioPath = Paths.get(this.raiz, this.diretorioImagens, veiculo.getId().toString() + "/");
-        for (MultipartFile foto : fotos) {
+    @PostMapping("cadastro-anuncio/salvarImagem")
+    public void salvarImagensAnuncio(@RequestParam Integer veiculoId, @RequestParam List<MultipartFile> imagens) {
+        Path diretorioPath = Paths.get(this.raiz, this.diretorioImagens, veiculoId.toString() + "/");
+        for (MultipartFile foto : imagens) {
             Path arquivoPath = diretorioPath.resolve(foto.getOriginalFilename());
             try {
                 Files.createDirectories(diretorioPath);

@@ -25,16 +25,19 @@ import javax.persistence.Table;
  * @author davidson ferreira
  */
 @Entity
-@IdClass(OpcionaisVeiculoPK.class)
 @Table(name = "opcionais_veiculo")
-public class OpcionaisVeiculo implements Serializable{
-    
+public class OpcionaisVeiculo implements Serializable {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+
     @ManyToOne
     @JoinColumn(name = "id_veiculo", referencedColumnName = "id")
     private Veiculo idVeiculo;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "id_opcionais", referencedColumnName = "id")
     private Opcionais idOpcionais;
@@ -54,16 +57,25 @@ public class OpcionaisVeiculo implements Serializable{
     public void setIdOpcionais(Opcionais idOpcionais) {
         this.idOpcionais = idOpcionais;
     }
-    
-    static class OpcionaisVeiculoPK implements Serializable{
-        protected Veiculo idVeiculo;
-        protected Opcionais idOpcionais;
-        
-        public OpcionaisVeiculoPK() {}
-        
-        public OpcionaisVeiculoPK(Veiculo idVeiculo, Opcionais idOpcionais) {
-            this.idVeiculo = idVeiculo;
-            this.idOpcionais = idOpcionais;
-        }
+
+    public Integer getId() {
+        return id;
     }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+//    ;
+//    static class OpcionaisVeiculoPK implements Serializable{
+//        protected Veiculo idVeiculo;
+//        protected Opcionais idOpcionais;
+//        
+//        public OpcionaisVeiculoPK() {}
+//        
+//        public OpcionaisVeiculoPK(Veiculo idVeiculo, Opcionais idOpcionais) {
+//            this.idVeiculo = idVeiculo;
+//            this.idOpcionais = idOpcionais;
+//        }
+//    }
 }

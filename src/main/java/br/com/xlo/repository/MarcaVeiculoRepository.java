@@ -23,4 +23,5 @@ public interface MarcaVeiculoRepository extends JpaRepository<MarcaVeiculo, Long
             + "ORDER BY mv.marca")
     List<MarcaVeiculo> findByTipoVeiculoNome(String tipoVeiculo);
     
+    MarcaVeiculo findByMarcaAndTipoVeiculo(String marca, TipoVeiculo tipoVeiculo);
 }

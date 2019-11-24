@@ -11,4 +11,6 @@ public interface TipoVeiculoRepository extends JpaRepository<TipoVeiculo, Long> 
 
     @Override
     TipoVeiculo save(TipoVeiculo tipoVeiculo);
+    
+    TipoVeiculo findByTipoNome(String tipoNome);
 }

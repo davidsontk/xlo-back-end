@@ -10,12 +10,14 @@ package br.com.xlo.dto;
  * @author William Fávaro
  */
 public class VeiculoDTO {
-    private Integer idUsuario;
+    
     private String descricao;
     private Double preco;
     private Integer km;
     private Integer ano;
-
+    private String marca;
+    private String tipo;
+    
     public String getDescricao() {
         return descricao;
     }
@@ -48,12 +50,19 @@ public class VeiculoDTO {
         this.ano = ano;
     }
 
-    public Integer getIdUsuario() {
-        return idUsuario;
+    public String getMarca() {
+        return marca;
     }
 
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setMarca(String marca) {
+        this.marca = marca;
     }
-    
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 }
