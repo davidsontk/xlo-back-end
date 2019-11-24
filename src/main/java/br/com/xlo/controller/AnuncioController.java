@@ -5,6 +5,7 @@
  */
 package br.com.xlo.controller;
 
+import br.com.xlo.dto.AnuncioComOpcionaisDTO;
 import br.com.xlo.dto.AnuncioDTO;
 import br.com.xlo.dto.OpcionaisVeiculoDTO;
 import br.com.xlo.dto.VeiculoDTO;
@@ -69,7 +70,7 @@ public class AnuncioController {
 
     @Autowired
     private TipoVeiculoRepository tipoVeiculoRepository;
-    
+
     @Value("${xlo.disco.raiz}")
     private String raiz;
 
@@ -133,15 +134,23 @@ public class AnuncioController {
     @RequestMapping(value = "salvarImagem", method = RequestMethod.POST)
     public void salvarImagensAnuncio(@RequestParam String veiculoId, @RequestParam MultipartFile imagens) {
         Path diretorioPath = Paths.get(this.raiz, this.diretorioImagens, veiculoId + "/");
+
+        Path arquivoPath = diretorioPath.resolve(imagens.getOriginalFilename());
+        try {
+            Files.createDirectories(diretorioPath);
+            imagens.transferTo(arquivoPath.toFile());
+        } catch (IOException e) {
+            throw new RuntimeException("Problemas na tentativa de salvar arquivo.", e);
+        }
+    }
+
+    @GetMapping("/buscarDetalhesAnuncio/{idVeiculo}")
+    public AnuncioComOpcionaisDTO buscarDetalhesAnuncio(@PathVariable Integer idVeiculo) {
+        AnuncioComOpcionaisDTO anuncio = new AnuncioComOpcionaisDTO();
+        Veiculo v = veiculoRepository.findById(idVeiculo);       
+        anuncio.setVeiculo(v);
+        anuncio.setOpcionais(opcionaisVeiculoRepository.buscarOpcionaisPorVeiculo(v.getId()));
         
-//        for (MultipartFile foto : imagens) {
-            Path arquivoPath = diretorioPath.resolve(imagens.getOriginalFilename());
-            try {
-                Files.createDirectories(diretorioPath);
-                imagens.transferTo(arquivoPath.toFile());
-            } catch (IOException e) {
-                throw new RuntimeException("Problemas na tentativa de salvar arquivo.", e);
-            }
-//        }
+        return anuncio;
     }
 }
