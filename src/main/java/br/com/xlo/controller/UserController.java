@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
 
 /**
  *
@@ -35,13 +36,6 @@ public class UserController {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    @PostMapping("/sign-up")
-    public void signUp(@RequestBody Usuario user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        System.out.println(bCryptPasswordEncoder.encode(user.getPassword()));
-        usuarioRepository.save(user);
-    }
-
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public String cadastroUsuario(@RequestBody Usuario usuario) {
@@ -49,7 +43,7 @@ public class UserController {
             String hash = BCrypt.hashpw(usuario.getPassword(), BCrypt.gensalt(10));
             usuario.setPassword(hash);
             usuarioRepository.save(usuario);
-            
+
             return "Usuário cadastrado com sucesso " + usuario.getUsername();
         } catch (Exception e) {
             log.error("Erro ao salvar usuario ", e);
@@ -66,6 +60,29 @@ public class UserController {
 
     @GetMapping
     public List<Usuario> listarUsuarios() {
-       return usuarioRepository.findAll();
+        return usuarioRepository.findAll();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Object> logar(@RequestBody Usuario user) {
+
+        Usuario c = usuarioRepository.findByEmail(user.getEmail());
+        if (c == null) {
+            return new ResponseEntity<>("Cliente não encontrado", HttpStatus.BAD_REQUEST);
+        }
+        if (checkPassword(user.getPassword(), c.getPassword())) {
+            return new ResponseEntity<>(c, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    private boolean checkPassword(String senha, String senhaPersistida) {
+        try {
+            return BCrypt.checkpw(senha, senhaPersistida);//(senha, senhaPersistida);
+        } catch (Exception e) {
+            log.error("Erro ao comparar senha", e);
+            return false;
+        }
     }
 }
