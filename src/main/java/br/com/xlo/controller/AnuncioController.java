@@ -21,7 +21,12 @@ import br.com.xlo.repository.OpcionaisVeiculoRepository;
 import br.com.xlo.repository.TipoVeiculoRepository;
 import br.com.xlo.repository.UsuarioRepository;
 import br.com.xlo.repository.VeiculoRepository;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,8 +34,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,7 +48,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.support.ServletContextResource;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
@@ -147,10 +157,30 @@ public class AnuncioController {
     @GetMapping("/buscarDetalhesAnuncio/{idVeiculo}")
     public AnuncioComOpcionaisDTO buscarDetalhesAnuncio(@PathVariable Integer idVeiculo) {
         AnuncioComOpcionaisDTO anuncio = new AnuncioComOpcionaisDTO();
-        Veiculo v = veiculoRepository.findById(idVeiculo);       
+        Veiculo v = veiculoRepository.findById(idVeiculo);
         anuncio.setVeiculo(v);
         anuncio.setOpcionais(opcionaisVeiculoRepository.buscarOpcionaisPorVeiculo(v.getId()));
-        
+
         return anuncio;
     }
+
+    @RequestMapping(value = "/buscarDetalhesAnuncio/buscarImagens/{idVeiculo}", method = RequestMethod.GET)
+    public @ResponseBody
+    List<byte[]> buscarTodasImagens(@PathVariable Integer idVeiculo) throws IOException {
+        List<String> listaPath = new ArrayList<String>();
+        List<byte[]> listaEmByte = new ArrayList<byte[]>();
+        Path diretorioPath = Paths.get(this.raiz, this.diretorioImagens, idVeiculo + "/");
+        File file = new File(diretorioPath.toString());
+        File[] arquivos = file.listFiles();
+
+        for (File fileTmp : arquivos) {
+            //InputStream in = getClass().getClassLoader().getResourceAsStream(fileTmp.toString());
+            InputStream in = new ByteArrayInputStream(Charset.forName("UTF-16").encode(fileTmp.toString()).array());
+
+            listaEmByte.add(IOUtils.toByteArray(in));
+        }
+
+        return listaEmByte;
+    }
+
 }
