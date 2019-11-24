@@ -175,7 +175,8 @@ public class AnuncioController {
 
         for (File fileTmp : arquivos) {
             //InputStream in = getClass().getClassLoader().getResourceAsStream(fileTmp.toString());
-            InputStream in = new ByteArrayInputStream(Charset.forName("UTF-16").encode(fileTmp.toString()).array());
+           // InputStream in = new ByteArrayInputStream(Charset.forName("UTF-16").encode(fileTmp.toString()).array());
+            InputStream in = new ByteArrayInputStream(fileTmp.toString().getBytes());
 
             listaEmByte.add(IOUtils.toByteArray(in));
         }
