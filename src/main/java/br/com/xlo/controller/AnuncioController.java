@@ -24,17 +24,24 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 /**
  *
@@ -42,6 +49,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 @RequestMapping("/anuncio/")
+@CrossOrigin("*")
 public class AnuncioController {
 
     @Autowired
@@ -121,17 +129,19 @@ public class AnuncioController {
         return veiculoRepository.listaVeiculoEOpcionais();
     }
 
-    @PostMapping("cadastro-anuncio/salvarImagem")
-    public void salvarImagensAnuncio(@RequestParam Integer veiculoId, @RequestParam List<MultipartFile> imagens) {
-        Path diretorioPath = Paths.get(this.raiz, this.diretorioImagens, veiculoId.toString() + "/");
-        for (MultipartFile foto : imagens) {
-            Path arquivoPath = diretorioPath.resolve(foto.getOriginalFilename());
+//    @PostMapping("salvarImagem")
+    @RequestMapping(value = "salvarImagem", method = RequestMethod.POST)
+    public void salvarImagensAnuncio(@RequestParam String veiculoId, @RequestParam MultipartFile imagens) {
+        Path diretorioPath = Paths.get(this.raiz, this.diretorioImagens, veiculoId + "/");
+        
+//        for (MultipartFile foto : imagens) {
+            Path arquivoPath = diretorioPath.resolve(imagens.getOriginalFilename());
             try {
                 Files.createDirectories(diretorioPath);
-                foto.transferTo(arquivoPath.toFile());
+                imagens.transferTo(arquivoPath.toFile());
             } catch (IOException e) {
                 throw new RuntimeException("Problemas na tentativa de salvar arquivo.", e);
             }
-        }
+//        }
     }
 }
