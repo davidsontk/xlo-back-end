@@ -117,8 +117,8 @@ public class AnuncioController {
 
     //veiculo e lista de opcionaisVeiculo
     @GetMapping("detalhes")
-    public List<OpcionaisVeiculo> listaOpcionaisVeiculo() {
-        return opcionaisVeiculoRepository.findAll();
+    public List<Veiculo> listaVeiculoEOpcionais() {
+        return veiculoRepository.listaVeiculoEOpcionais();
     }
 
     @PostMapping("cadastro-anuncio/salvarImagem")

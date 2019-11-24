@@ -45,4 +45,15 @@ public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
     
     Veiculo findById(Integer id);
     
+    @Query(value = "SELECT DISTINCT v.descricao, v.marca, v.ano, v.kmRodado, v.preco, (select string_agg(cast(op.nome as text)) from Opcionais, OpcionaisVeiculo" +
+            "WHERE Opcionais.id = OpcionaisVeiculo.idOpcionais) AS opcionais" +
+            "FROM Veiculo v, Opcionais op, OpcionaisVeiculo opv" +
+            "WHERE v.id = opv.idVeiculo AND op.id = opv.idOpcionais", nativeQuery = true)
+    List<Veiculo> listaVeiculoEOpcionais();
+    
+    /*SELECT DISTINCT v.descricao, v.marca, v.ano, v.km_rodado, v.preco, (select string_agg(op.nome::text, ',') from opcionais op, opcionais_veiculo opv
+        where op.id = opv.id_opcionais) AS opcionais
+        FROM veiculo v, opcionais op, opcionais_veiculo opv
+        WHERE v.id = opv.id_veiculo AND op.id = opv.id_opcionais;*/
+    
 }
