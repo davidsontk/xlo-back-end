@@ -6,8 +6,10 @@
 package br.com.xlo.repository;
 
 import br.com.xlo.model.Opcionais;
+import br.com.xlo.model.Veiculo;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**

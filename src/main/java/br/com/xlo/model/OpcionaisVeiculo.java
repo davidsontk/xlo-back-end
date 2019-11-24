@@ -54,16 +54,4 @@ public class OpcionaisVeiculo implements Serializable{
     public void setIdOpcionais(Opcionais idOpcionais) {
         this.idOpcionais = idOpcionais;
     }
-    
-    static class OpcionaisVeiculoPK implements Serializable{
-        protected Veiculo idVeiculo;
-        protected Opcionais idOpcionais;
-        
-        public OpcionaisVeiculoPK() {}
-        
-        public OpcionaisVeiculoPK(Veiculo idVeiculo, Opcionais idOpcionais) {
-            this.idVeiculo = idVeiculo;
-            this.idOpcionais = idOpcionais;
-        }
-    }
 }

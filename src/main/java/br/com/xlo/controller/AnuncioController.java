@@ -88,8 +88,8 @@ public class AnuncioController {
 
         v = veiculoRepository.save(v);
 
-        //salvarOpcionalVeiculo(v, opcionais);
-        //salvarImagensAnuncio(v, imagens);
+        salvarOpcionalVeiculo(v, opcionais);
+        salvarImagensAnuncio(v, imagens);
     }
 
     private void salvarOpcionalVeiculo(Veiculo veiculo, List<OpcionaisVeiculoDTO> opcionaisVeiculo) {
@@ -105,8 +105,8 @@ public class AnuncioController {
     
     //veiculo e lista de opcionaisVeiculo
     @GetMapping("detalhes")
-    public List<OpcionaisVeiculo> listaOpcionaisVeiculo() {
-        return opcionaisVeiculoRepository.findAll();
+    public List<Veiculo> listaVeiculoEOpcionais() {
+        return veiculoRepository.listaVeiculoEOpcionais();
     }
 
      private void salvarImagensAnuncio(Veiculo veiculo ,List<MultipartFile> fotos) {
