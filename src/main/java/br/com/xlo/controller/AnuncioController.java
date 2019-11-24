@@ -31,9 +31,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -166,7 +168,7 @@ public class AnuncioController {
 
     @RequestMapping(value = "/buscarDetalhesAnuncio/buscarImagens/{idVeiculo}", method = RequestMethod.GET)
     public @ResponseBody
-    List<byte[]> buscarTodasImagens(@PathVariable Integer idVeiculo) throws IOException {
+    List<String> buscarTodasImagens(@PathVariable Integer idVeiculo) throws IOException {
         List<String> listaPath = new ArrayList<String>();
         List<byte[]> listaEmByte = new ArrayList<byte[]>();
         Path diretorioPath = Paths.get(this.raiz, this.diretorioImagens, idVeiculo + "/");
@@ -175,13 +177,15 @@ public class AnuncioController {
 
         for (File fileTmp : arquivos) {
             //InputStream in = getClass().getClassLoader().getResourceAsStream(fileTmp.toString());
-           // InputStream in = new ByteArrayInputStream(Charset.forName("UTF-16").encode(fileTmp.toString()).array());
-            InputStream in = new ByteArrayInputStream(fileTmp.toString().getBytes());
+            //InputStream in = new ByteArrayInputStream(Charset.forName("UTF-16").encode(fileTmp.toString()).array());
+            byte[] fileContent = FileUtils.readFileToByteArray(new File(fileTmp.toString()));
+            String encodedString = Base64.getEncoder().encodeToString(fileContent);
+            //InputStream in = new ByteArrayInputStream(fileTmp.toString().getBytes());
 
-            listaEmByte.add(IOUtils.toByteArray(in));
+            listaPath.add(encodedString);
         }
 
-        return listaEmByte;
+        return listaPath;
     }
 
 }
