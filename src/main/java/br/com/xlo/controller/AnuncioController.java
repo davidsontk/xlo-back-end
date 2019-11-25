@@ -116,7 +116,7 @@ public class AnuncioController {
         v.setIdUsuario(usuario);
         v.setDescricao(anuncio.getVeiculo().getDescricao());
         v.setPreco(anuncio.getVeiculo().getPreco());
-        v.setKmRodado(anuncio.getVeiculo().getKm());
+        v.setKmRodado(anuncio.getVeiculo().getKmRodado());
         v.setAno(anuncio.getVeiculo().getAno());
         v.setMarca(marca);
 
@@ -125,7 +125,25 @@ public class AnuncioController {
         salvarOpcionalVeiculo(v1, anuncio.getOpcionais());
         return v;
     }
+    
+    @PostMapping("editar-anuncio")
+    public void editarAnuncio(@RequestBody AnuncioDTO anuncio) {
+        Usuario usuario = usuarioRepository.findById(anuncio.getIdUsuario());
+        TipoVeiculo tipoVeiculo = tipoVeiculoRepository.findByTipoNome(anuncio.getVeiculo().getTipo());
+        MarcaVeiculo marca = marcaRepository.findByMarcaAndTipoVeiculo(anuncio.getVeiculo().getMarca(), tipoVeiculo);
+        Veiculo v = new Veiculo();
+        v.setId(anuncio.getVeiculo().getId());
+        v.setIdUsuario(usuario);
+        v.setDescricao(anuncio.getVeiculo().getDescricao());
+        v.setPreco(anuncio.getVeiculo().getPreco());
+        v.setKmRodado(anuncio.getVeiculo().getKmRodado());
+        v.setAno(anuncio.getVeiculo().getAno());
+        v.setMarca(marca);
 
+        veiculoRepository.save(v);
+
+    }
+    
     private void salvarOpcionalVeiculo(Veiculo veiculo, List<Integer> opcionaisVeiculo) {
         for (Integer opcional : opcionaisVeiculo) {
             Opcionais opcionais = opcionaisRepository.findById(opcional);

@@ -11,12 +11,21 @@ package br.com.xlo.dto;
  */
 public class VeiculoDTO {
     
+    private Integer id;
     private String descricao;
     private Double preco;
-    private Integer km;
+    private Integer kmRodado;
     private Integer ano;
     private String marca;
     private String tipo;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
     
     public String getDescricao() {
         return descricao;
@@ -34,12 +43,12 @@ public class VeiculoDTO {
         this.preco = preco;
     }
 
-    public Integer getKm() {
-        return km;
+    public Integer getKmRodado() {
+        return kmRodado;
     }
 
-    public void setKm(Integer km) {
-        this.km = km;
+    public void setKmRodado(Integer kmRodado) {
+        this.kmRodado = kmRodado;
     }
 
     public Integer getAno() {

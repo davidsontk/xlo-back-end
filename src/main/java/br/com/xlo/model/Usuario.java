@@ -33,7 +33,7 @@ public class Usuario implements Serializable {
     @Size(max = 200)
     @Column(name = "lastname")
     private String lastname;
-    
+
     @Size(max = 100)
     @Column(name = "password")
     private String password;
@@ -49,6 +49,9 @@ public class Usuario implements Serializable {
     @Size(max = 100)
     @Column(name = "email")
     private String email;
+
+    @Column(name = "telefone")
+    private String telefone;
 
     public Usuario() {
     }
@@ -111,6 +114,14 @@ public class Usuario implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     @Override
