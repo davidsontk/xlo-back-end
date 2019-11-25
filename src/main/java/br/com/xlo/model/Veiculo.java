@@ -44,7 +44,10 @@ public class Veiculo {
     @JoinColumn(name = "marca", referencedColumnName = "id")
     @ManyToOne
     private MarcaVeiculo marca;
-
+    
+    @Column(name = "path_image")
+    private String pathImage;
+    
     public Integer getId() {
         return id;
     }
@@ -100,4 +103,13 @@ public class Veiculo {
     public void setIdUsuario(Usuario idUsuario) {
         this.idUsuario = idUsuario;
     }
+
+    public String getPathImage() {
+        return pathImage;
+    }
+
+    public void setPathImage(String pathImage) {
+        this.pathImage = pathImage;
+    }
+    
 }
