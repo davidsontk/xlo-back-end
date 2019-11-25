@@ -81,13 +81,19 @@ public class CamposController {
         if (campoDinamico.equals("null") || campoDinamico.equals("")) {
             // pesquisando apenas pela marca do veiculo
             pageable = PageRequest.of(page, pageSize, Sort.by("descricao"));
-
-            return new ResponseEntity<>(veiculoRepository.findByMarcaPage(tipoVeiculo, marcaVeiculo, pageable), HttpStatus.OK);
+            Page<Veiculo> listVeiculos = veiculoRepository.findByMarcaPage(tipoVeiculo, marcaVeiculo, pageable);
+            for (Veiculo veiculo : listVeiculos.getContent()) {
+                veiculo.setPathImage(getPathVeiculo(veiculo.getId()));
+            }
+            return new ResponseEntity<>(listVeiculos, HttpStatus.OK);
         } else {
             // pesquisando pelo campo dinamico
             pageable = PageRequest.of(page, pageSize, Sort.by("descricao"));
-
-            return new ResponseEntity<>(veiculoRepository.findByMarcaAndDescricaoPage(tipoVeiculo, marcaVeiculo, campoDinamico, pageable), HttpStatus.OK);
+            Page<Veiculo> listVeiculos = veiculoRepository.findByMarcaAndDescricaoPage(tipoVeiculo, marcaVeiculo, campoDinamico, pageable);
+            for (Veiculo veiculo : listVeiculos.getContent()) {
+                veiculo.setPathImage(getPathVeiculo(veiculo.getId()));
+            }
+            return new ResponseEntity<>(listVeiculos, HttpStatus.OK);
         }
     }
 
