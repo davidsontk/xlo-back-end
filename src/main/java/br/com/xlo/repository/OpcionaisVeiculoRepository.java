@@ -26,4 +26,12 @@ public interface OpcionaisVeiculoRepository extends JpaRepository<OpcionaisVeicu
             + " WHERE opcionaisVeiculo.idVeiculo.id = ?1 "
             + "ORDER BY opcionaisVeiculo.idOpcionais.nome ")
     List<Opcionais> buscarOpcionaisPorVeiculo(Integer idVeiculo);
+    
+     @Query("SELECT opcionaisVeiculo from OpcionaisVeiculo opcionaisVeiculo "
+            + " WHERE opcionaisVeiculo.idVeiculo.id = ?1 "
+            + "ORDER BY opcionaisVeiculo.idOpcionais.nome ")
+    List<OpcionaisVeiculo> buscarOpcionaisVeiculo(Integer idVeiculo);
+    
+    @Override
+    void delete(OpcionaisVeiculo opcionaisVeiculo);
 }

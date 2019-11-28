@@ -37,11 +37,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -89,6 +92,8 @@ public class AnuncioController {
     @Value("${xlo.disco.diretorio-carros}")
     private String diretorioImagens;
 
+    private Logger log = LogManager.getLogger(AnuncioController.class);
+
     /**
      * Lista veiculos por usuario
      */
@@ -125,7 +130,7 @@ public class AnuncioController {
         salvarOpcionalVeiculo(v1, anuncio.getOpcionais());
         return v;
     }
-    
+
     @PostMapping("editar-anuncio")
     public void editarAnuncio(@RequestBody AnuncioDTO anuncio) {
         Usuario usuario = usuarioRepository.findById(anuncio.getIdUsuario());
@@ -143,7 +148,7 @@ public class AnuncioController {
         veiculoRepository.save(v);
 
     }
-    
+
     private void salvarOpcionalVeiculo(Veiculo veiculo, List<Integer> opcionaisVeiculo) {
         for (Integer opcional : opcionaisVeiculo) {
             Opcionais opcionais = opcionaisRepository.findById(opcional);
@@ -204,6 +209,22 @@ public class AnuncioController {
         }
 
         return listaPath;
+    }
+
+    @DeleteMapping("{idVeiculo}")
+    public String deletarAnuncio(@PathVariable Integer idVeiculo) {
+        try {
+            Veiculo v = veiculoRepository.findById(idVeiculo);
+            List<OpcionaisVeiculo> listOpcionaisVeiculo = opcionaisVeiculoRepository.buscarOpcionaisVeiculo(idVeiculo);
+            for (OpcionaisVeiculo opcionaisVeiculo : listOpcionaisVeiculo) {
+                opcionaisVeiculoRepository.delete(opcionaisVeiculo);
+            }
+            veiculoRepository.delete(v);
+        } catch (Exception e) {
+            log.error("Erro ao deletar veiculo", e);
+        }
+
+        return "Anúncio deletado com sucesso";
     }
 
 }

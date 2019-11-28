@@ -56,4 +56,6 @@ public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
         FROM veiculo v, opcionais op, opcionais_veiculo opv
         WHERE v.id = opv.id_veiculo AND op.id = opv.id_opcionais;*/
     
+    @Override
+    void delete(Veiculo v);
 }
